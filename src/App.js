@@ -22,9 +22,11 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
-      setCoords({ lat: latitude, lng: longitude });
-    });
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        setCoords({ lat: latitude, lng: longitude });
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -37,16 +39,16 @@ const App = () => {
     if (bounds) {
       setIsLoading(true);
 
-      getWeatherData(coords.lat, coords.lng)
-        .then((data) => setWeatherData(data));
+      getWeatherData(coords.lat, coords.lng).then((data) =>
+        setWeatherData(data)
+      );
 
-      getPlacesData(type, bounds.sw, bounds.ne)
-        .then((data) => {
-          setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
-          setFilteredPlaces([]);
-          setRating('');
-          setIsLoading(false);
-        });
+      getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
+        setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
+        setFilteredPlaces([]);
+        setRating('');
+        setIsLoading(false);
+      });
     }
   }, [bounds, type]);
 
@@ -75,7 +77,16 @@ const App = () => {
             setRating={setRating}
           />
         </Grid>
-        <Grid item xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Grid
+          item
+          xs={12}
+          md={8}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Map
             setChildClicked={setChildClicked}
             setBounds={setBounds}
